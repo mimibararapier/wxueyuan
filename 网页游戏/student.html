@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W学院学生管理系统</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "SimSun", "宋体", Arial, sans-serif;
+            color: #5d4037;
+        }
+
+        body {
+            background: #f5f7f9;
+            min-height: 100vh;
+            transition: background-color 0.5s ease; /* 背景切换过渡 */
+        }
+
+        /* 返回按钮 - 左上角固定（新增箭头白色样式） */
+        .back-btn-container {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 10000;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: #5cb85c;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.2s;
+        }
+        /* 关键修改：单独设置箭头（fa图标）颜色为白色 */
+        .back-btn i.fa {
+            color: #ffffff; /* 强制箭头为白色 */
+            margin: 0;
+            padding: 0;
+        }
+        .back-btn:hover {
+            background: #4cae4c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .login-wrap {
+            width: 100%;
+            max-width: 420px;
+            margin: 140px auto 0;
+            padding: 50px 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        .title {
+            font-size: 26px;
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        .form-item {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .form-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .form-item input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .form-item input:focus {
+            outline: none;
+            border-color: #5cb85c;
+            box-shadow: 0 0 0 3px rgba(92,184,92,0.15);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #4cae4c;
+        }
+
+        .tip {
+            margin-top: 20px;
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* 系统主界面 */
+        .main-system {
+            display: none;
+            padding: 80px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .modal-header {
+            padding: 16px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .system-nav {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .system-nav-item {
+            padding: 14px 28px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #555;
+            transition: all 0.2s;
+        }
+
+        .system-nav-item.active {
+            color: #5cb85c;
+            font-weight: bold;
+            border-bottom: 3px solid #5cb85c;
+        }
+
+        .system-tab-content {
+            padding: 30px 0;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        .info-item {
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .info-item label {
+            display: inline-block;
+            width: 140px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .logout-btn:hover {
+            background: #c9302c;
+        }
+
+        /* 黑底全屏红字样式（密集排布、加粗、快速闪烁+抖动+失真） */
+        .black-screen {
+            background-color: #000 !important; /* 满屏黑色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .full-screen-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 9999;
+            pointer-events: none;
+            /* 密集排布：缩小网格间距和列宽 */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); /* 列宽从80px改40px，更密集 */
+            gap: 2px; /* 间距从10px改2px，大幅密集 */
+            padding: 5px; /* 内边距缩小，增加文字占比 */
+        }
+
+        .full-screen-text span {
+            font-size: 14px; /* 小号字体 */
+            font-style: italic; /* 斜体 */
+            font-weight: bold; /* 字体加粗 */
+            color: #ff0000; /* 红色字体 */
+            margin: 0;
+            /* 快速闪烁 + 抖动 + 失真动画（时长缩短，实现快速效果） */
+            animation: 
+                shake 0.1s infinite alternate, /* 抖动时长0.1s，更快 */
+                distort 0.2s infinite alternate, /* 失真时长0.2s，更快 */
+                flicker 0.05s infinite alternate; /* 闪烁时长0.05s，超快速 */
+        }
+
+        /* 抖动动画（更快更细微） */
+        @keyframes shake {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(1px, 0.5px);
+            }
+            100% {
+                transform: translate(-1px, -0.5px);
+            }
+        }
+
+        /* 失真动画（更快更细微） */
+        @keyframes distort {
+            0% {
+                transform: skew(0, 0) scaleX(1);
+            }
+            50% {
+                transform: skew(1deg, 0.5deg) scaleX(1.01);
+            }
+            100% {
+                transform: skew(-1deg, -0.5deg) scaleX(0.99);
+            }
+        }
+
+        /* 快速闪烁动画（超短时长，实现高频闪烁） */
+        @keyframes flicker {
+            0% {
+                opacity: 1;
+                text-shadow: 0 0 2px #ff0000;
+            }
+            100% {
+                opacity: 0;
+                text-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body id="bodyContainer">
+
+    <!-- 返回按钮 - 左上角（箭头已设为白色） -->
+    <div class="back-btn-container">
+        <a href="guanwang.html" class="back-btn">
+            <i class="fa fa-arrow-left"></i>
+            返回学院官网
+        </a>
+    </div>
+
+<div class="login-wrap" id="loginWrap">
+    <div class="title">W学院学生管理系统</div>
+    <form id="loginForm">
+        <div class="form-item">
+            <label>用户名</label>
+            <input type="text" id="username" placeholder="请输入用户名" required autocomplete="off">
+        </div>
+        <div class="form-item">
+            <label>密码</label>
+            <input type="password" id="password" placeholder="请输入密码" required autocomplete="off">
+        </div>
+        <button type="submit" class="login-btn">登录</button>
+    </form>
+    <div class="tip">测试账号：mimi123　密码：123456</div>
+</div>
+
+<!-- 系统主界面 -->
+<div class="main-system" id="mainSystem">
+    <div class="modal-header">
+        W学院学生管理系统
+        <button class="logout-btn" id="logoutBtn"><i class="fa fa-sign-out"></i> 退出</button>
+    </div>
+
+    <div class="system-nav">
+        <div class="system-nav-item active" data-tab="info">个人资料</div>
+        <div class="system-nav-item" data-tab="class">班级信息</div>
+        <div class="system-nav-item" data-tab="course">选修课程</div>
+        <div class="system-nav-item" data-tab="grade">成绩查询</div>
+        <div class="system-nav-item" data-tab="leave">请假申请</div>
+    </div>
+
+    <div class="system-tab-content">
+        <div class="tab-pane active" id="info">
+            <h3 style="margin-bottom:24px;">个人信息</h3>
+            <div class="info-item"><label>学号</label>2026001001</div>
+            <div class="info-item"><label>姓名</label>咪咪</div>
+            <div class="info-item"><label>性别</label>女</div>
+            <div class="info-item"><label>出生日期</label>2008-01-01</div>
+            <div class="info-item"><label>入学时间</label>2026-09-01</div>
+            <div class="info-item"><label>所属年级</label>高一</div>
+            <div class="info-item"><label>电子邮箱</label>mimi@wcollege.edu.cn</div>
+            <div class="info-item"><label>学籍状态</label><span style="color:#5cb85c;">正常</span></div>
+        </div>
+
+        <div class="tab-pane" id="class">
+            <h3 style="margin-bottom:24px;">班级信息</h3>
+            <div class="info-item"><label>当前班级</label>高一（1）班</div>
+            <div class="info-item"><label>班主任</label>张老师</div>
+            <div class="info-item"><label>班主任电话</label>137****7777</div>
+            <div class="info-item"><label>教室位置</label>教学楼1楼 101室</div>
+        </div>
+
+        <div class="tab-pane" id="course">
+            <h3 style="margin-bottom:24px;">本学期选修课程</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>课程编号</th>
+                        <th>课程名称</th>
+                        <th>教师</th>
+                        <th>学分</th>
+                        <th>时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>XK2026001</td><td>古典文学赏析</td><td>李老师</td><td>2</td><td>周二 16:00-17:30</td></tr>
+                    <tr><td>XK2026008</td><td>趣味生物学</td><td>王老师</td><td>2</td><td>周四 16:00-17:30</td></tr>
+                    <tr><td>XK2026015</td><td>书法基础</td><td>赵老师</td><td>1</td><td>周五 16:00-17:30</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane" id="grade">
+            <h3 style="margin-bottom:24px;">2025-2026学年第一学期成绩</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>科目</th>
+                        <th>分数</th>
+                        <th>等级</th>
+                        <th>学分</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>语文</td><td>115</td><td>A</td><td>10</td></tr>
+                    <tr><td>数学</td><td>120</td><td>A+</td><td>10</td></tr>
+                    <tr><td>英语</td><td>118</td><td>A</td><td>10</td></tr>
+                    <tr><td>物理</td><td>89</td><td>B+</td><td>8</td></tr>
+                    <tr><td>化学</td><td>92</td><td>A-</td><td>8</td></tr>
+                    <tr><td>生物</td><td>52</td><td>C</td><td>6</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top:20px; color:#d9534f; font-size:15px;">
+                生物成绩偏低，请加强复习
+            </div>
+        </div>
+
+        <div class="tab-pane" id="leave">
+            <h3 style="margin-bottom:24px;">请假申请</h3>
+            <div class="info-item"><label>本学期已请假</label>2天</div>
+            <div class="info-item"><label>剩余可请假天数</label>8天</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 定义错误次数计数器，初始值为0
+    let errorCount = 0;
+    const bodyContainer = document.getElementById("bodyContainer");
+    let fullScreenTextElement = null; // 存储全屏文字元素
+    let closeTimer = null; // 存储关闭网页的定时器
+
+    // 生成黑底全屏红字（密集、加粗、快速闪烁+抖动+失真）+ 改标题 + 5秒关网页
+    function createBlackScreenWithFullText() {
+        // 清除原有定时器（避免重复触发）
+        if (closeTimer) {
+            clearTimeout(closeTimer);
+        }
+
+        // 1. 修改网页标题为「滚出去」
+        document.title = "滚出去";
+
+        // 2. 添加黑色背景类
+        bodyContainer.classList.add("black-screen");
+
+        // 3. 创建全屏文字容器（仅创建一次）
+        if (!fullScreenTextElement) {
+            fullScreenTextElement = document.createElement("div");
+            fullScreenTextElement.className = "full-screen-text";
+
+            // 生成足够多的「滚出去」文字，确保全屏密集铺满（数量增加到500，更密集）
+            const textCount = 500; 
+            let textHtml = "";
+            for (let i = 0; i < textCount; i++) {
+                textHtml += '<span>滚出去</span>';
+            }
+            fullScreenTextElement.innerHTML = textHtml;
+            bodyContainer.appendChild(fullScreenTextElement);
+        } else {
+            // 若已存在，显示它
+            fullScreenTextElement.style.display = "grid";
+        }
+
+        // 4. 隐藏登录框和系统主界面
+        document.getElementById("loginWrap").style.display = "none";
+        document.getElementById("mainSystem").style.display = "none";
+
+        // 5. 5秒后自动关闭当前网页
+        closeTimer = setTimeout(() => {
+            window.close(); // 关闭当前窗口
+        }, 5000); // 5000毫秒=5秒
+    }
+
+    // 登录表单
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (username === "mimi123" && password === "123456") {
+            // 登录成功：重置所有状态
+            errorCount = 0;
+            document.title = "W学院学生管理系统"; // 恢复原标题
+            bodyContainer.classList.remove("black-screen");
+            if (fullScreenTextElement) {
+                fullScreenTextElement.style.display = "none";
+            }
+            if (closeTimer) {
+                clearTimeout(closeTimer); // 清除关闭定时器
+                closeTimer = null;
+            }
+            document.getElementById("loginWrap").style.display = "none";
+            document.getElementById("mainSystem").style.display = "block";
+        } else {
+            // 登录失败：错误计数器+1
+            errorCount++;
+            // 判断错误次数，显示对应提示
+            if (errorCount < 3) {
+                // 前2次输错：普通提示「用户名或密码错误」
+                alert("用户名或密码错误");
+            } else if (errorCount >= 3 && errorCount < 5) {
+                // 第3-4次输错：提示「你是谁」
+                alert("你是谁");
+            } else {
+                // 第5次及之后输错：触发所有特效 + 5秒关网页
+                createBlackScreenWithFullText();
+            }
+        }
+    });
+
+    // 退出登录
+    document.getElementById("logoutBtn").addEventListener("click", function() {
+        // 退出时重置所有状态
+        errorCount = 0;
+        document.title = "W学院学生管理系统"; // 恢复原标题
+        bodyContainer.classList.remove("black-screen");
+        if (fullScreenTextElement) {
+            fullScreenTextElement.style.display = "none";
+        }
+        if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+        }
+        document.getElementById("mainSystem").style.display = "none";
+        document.getElementById("loginWrap").style.display = "block";
+        document.getElementById("loginForm").reset();
+    });
+
+    // 导航切换
+    document.querySelectorAll(".system-nav-item").forEach(item => {
+        item.addEventListener("click", function() {
+            document.querySelectorAll(".system-nav-item").forEach(i => i.classList.remove("active"));
+            this.classList.add("active");
+
+            document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+            document.getElementById(this.dataset.tab).classList.add("active");
+        });
+    });
+</script>
+</body>
+</html>

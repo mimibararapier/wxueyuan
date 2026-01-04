@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W学院 - 官方网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "SimSun", "宋体", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7f9;
+            color: #5d4037;
+            line-height: 1.8;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .header-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #5d4037;
+        }
+
+        .logo span {
+            color: #5cb85c;
+        }
+
+        .nav-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .func-btn {
+            padding: 8px 16px;
+            background-color: #5cb85c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .func-btn:hover {
+            background-color: #4cae4c;
+        }
+
+        .main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0fcf0;
+            color: #5d4037;
+        }
+
+        .college-info {
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .college-info p {
+            margin-bottom: 10px;
+        }
+
+        .contact-info li {
+            list-style: none;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .notice-section {
+            flex: 3;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+
+        .notice-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0fcf0;
+            color: #5d4037;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notice-list {
+            list-style: none;
+        }
+
+        .notice-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eaecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notice-item a {
+            color: #5d4037;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .notice-item a:hover {
+            color: #5cb85c;
+        }
+
+        .notice-time {
+            font-size: 12px;
+            color: #6d4c41;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 12px;
+            color: #6d4c41;
+            background-color: #fff;
+            margin-top: 30px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">W<span>学院</span> 官方网站</div>
+            <div class="nav-btns">
+                <button class="func-btn" onclick="window.location.href = 'email.html'">校园邮箱</button>
+                <button class="func-btn" onclick="window.location.href = 'student.html'">学生系统</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <aside class="sidebar">
+            <h3 class="sidebar-title">学院简介</h3>
+            <div class="college-info">
+                <p>W学院成立于2000年，是一所专注于文理综合发展的优质高中院校。学院秉持"立德、博学、笃行、创新"的校训，致力于培养全面发展的优秀学子。</p>
+                <p>学院拥有一流的师资团队、完善的教学设施和优美的校园环境，多年来为国内外知名高校输送了大量优秀毕业生。</p>
+            </div>
+
+            <h3 class="sidebar-title">联系我们</h3>
+            <ul class="contact-info">
+                <li><i class="fa fa-map-marker"></i> 地址：XX市XX区XX路88号</li>
+                <li><i class="fa fa-phone"></i> 电话：012-34567890</li>
+                <li><i class="fa fa-envelope"></i> 邮箱：admin@wcollege.edu.cn</li>
+                <li><i class="fa fa-clock-o"></i> 办公时间：周一至周五 8:00-17:30</li>
+            </ul>
+        </aside>
+
+        <section class="notice-section">
+            <div class="notice-title">
+                <span>通知公告</span>
+                <span>最新更新：2026-01-04</span>
+            </div>
+            <ul class="notice-list">
+                <li class="notice-item">
+                    <a href="javascript:;">W学院2026新学期开学报到通知（新生&老生）</a>
+                    <span class="notice-time">2026-01-03</span>
+                </li>
+                <li class="notice-item">
+                    <a href="javascript:;">关于2026年春季学期选修课报名的通知</a>
+                    <span class="notice-time">2026-01-02</span>
+                </li>
+                <li class="notice-item">
+                    <a href="javascript:;">2025-2026学年第一学期期末考试成绩查询通知</a>
+                    <span class="notice-time">2025-12-30</span>
+                </li>
+                <li class="notice-item">
+                    <a href="javascript:;">学院图书馆新增馆藏图书公告</a>
+                    <span class="
