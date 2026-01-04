@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "微软雅黑", sans-serif;
+}
+
+body {
+    background-color: #f0f5f9;
+    padding: 20px;
+}
+
+#game-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* 剧情展示区样式 */
+#story-area {
+    margin-bottom: 30px;
+}
+
+#scene-title {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#story-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #34495e;
+    text-indent: 2em;
+    margin-bottom: 10px;
+}
+
+/* 线索栏样式 */
+#clue-area {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+#clue-area h3 {
+    color: #e74c3c;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+#clue-list {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #2c3e50;
+}
+
+.clue-empty {
+    color: #7f8c8d !important;
+    font-style: italic;
+}
+
+/* 选项按钮区样式 */
+#option-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-btn {
+    padding: 15px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: left;
+}
+
+.option-btn:hover {
+    background-color: #2980b9;
+}
+
+.option-btn:active {
+    background-color: #1f618d;
+}
